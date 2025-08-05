@@ -1,0 +1,45 @@
+2025-07-06 00:32:57,629 - INFO - Running one-time scan...
+2025-07-06 00:32:58,612 - INFO - Use pytorch device_name: cpu
+2025-07-06 00:32:58,612 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-06 00:33:01,173 - INFO - Processing file: C:\AI_SecondBrain\personal_vault\ai_assistant_workflows.md
+2025-07-06 00:33:02,413 - INFO - HTTP Request: POST https://zfzvxfjhoceomhjkuusm.supabase.co/rest/v1/crawled_pages "HTTP/2 201 Created"
+2025-07-06 00:33:02,416 - INFO - Successfully processed: C:\AI_SecondBrain\personal_vault\ai_assistant_workflows.md
+2025-07-06 00:33:02,416 - INFO - Processing file: C:\AI_SecondBrain\personal_vault\ai_pkm_foundation.md
+2025-07-06 00:33:02,650 - INFO - HTTP Request: POST https://zfzvxfjhoceomhjkuusm.supabase.co/rest/v1/crawled_pages "HTTP/2 201 Created"
+2025-07-06 00:33:02,652 - INFO - Successfully processed: C:\AI_SecondBrain\personal_vault\ai_pkm_foundation.md
+2025-07-06 00:33:02,653 - INFO - Processing file: C:\AI_SecondBrain\personal_vault\python_development_notes.md
+2025-07-06 00:33:02,907 - INFO - HTTP Request: POST https://zfzvxfjhoceomhjkuusm.supabase.co/rest/v1/crawled_pages "HTTP/2 201 Created"
+2025-07-06 00:33:02,909 - INFO - Successfully processed: C:\AI_SecondBrain\personal_vault\python_development_notes.md
+2025-07-06 00:33:32,249 - INFO - Running one-time scan...
+2025-07-06 00:33:33,308 - INFO - Use pytorch device_name: cpu
+2025-07-06 00:33:33,308 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-06 00:33:35,680 - INFO - Processing file: C:\AI_SecondBrain\personal_vault\ai_assistant_workflows.md
+2025-07-06 00:33:36,753 - INFO - HTTP Request: POST https://zfzvxfjhoceomhjkuusm.supabase.co/rest/v1/crawled_pages "HTTP/2 200 OK"
+2025-07-06 00:33:36,757 - INFO - Successfully processed: C:\AI_SecondBrain\personal_vault\ai_assistant_workflows.md
+2025-07-06 00:33:36,757 - INFO - Processing file: C:\AI_SecondBrain\personal_vault\ai_pkm_foundation.md
+2025-07-06 00:33:36,895 - INFO - HTTP Request: POST https://zfzvxfjhoceomhjkuusm.supabase.co/rest/v1/crawled_pages "HTTP/2 200 OK"
+2025-07-06 00:33:36,896 - INFO - Successfully processed: C:\AI_SecondBrain\personal_vault\ai_pkm_foundation.md
+2025-07-06 00:33:36,897 - INFO - Processing file: C:\AI_SecondBrain\personal_vault\python_development_notes.md
+2025-07-06 00:33:37,042 - INFO - HTTP Request: POST https://zfzvxfjhoceomhjkuusm.supabase.co/rest/v1/crawled_pages "HTTP/2 200 OK"
+2025-07-06 00:33:37,043 - INFO - Successfully processed: C:\AI_SecondBrain\personal_vault\python_development_notes.md
+2025-07-06 00:33:37,043 - INFO - Processing file: C:\AI_SecondBrain\personal_vault\test_note.md
+2025-07-06 00:33:37,044 - ERROR - Error processing C:\AI_SecondBrain\personal_vault\test_note.md: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+2025-07-06 00:35:30,369 - INFO - Running one-time scan...
+2025-07-06 00:35:31,408 - INFO - Use pytorch device_name: cpu
+2025-07-06 00:35:31,408 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-06 00:35:33,632 - INFO - Processing file: C:\AI_SecondBrain\personal_vault\ai_assistant_workflows.md
+2025-07-06 00:35:34,541 - INFO - HTTP Request: POST https://zfzvxfjhoceomhjkuusm.supabase.co/rest/v1/crawled_pages "HTTP/2 200 OK"
+2025-07-06 00:35:34,545 - INFO - Successfully processed: C:\AI_SecondBrain\personal_vault\ai_assistant_workflows.md
+2025-07-06 00:35:34,545 - INFO - Processing file: C:\AI_SecondBrain\personal_vault\ai_pkm_foundation.md
+2025-07-06 00:35:34,699 - INFO - HTTP Request: POST https://zfzvxfjhoceomhjkuusm.supabase.co/rest/v1/crawled_pages "HTTP/2 200 OK"
+2025-07-06 00:35:34,700 - INFO - Successfully processed: C:\AI_SecondBrain\personal_vault\ai_pkm_foundation.md
+2025-07-06 00:35:34,700 - INFO - Processing file: C:\AI_SecondBrain\personal_vault\python_development_notes.md
+2025-07-06 00:35:34,836 - INFO - HTTP Request: POST https://zfzvxfjhoceomhjkuusm.supabase.co/rest/v1/crawled_pages "HTTP/2 200 OK"
+2025-07-06 00:35:34,837 - INFO - Successfully processed: C:\AI_SecondBrain\personal_vault\python_development_notes.md
+2025-07-06 00:35:34,837 - INFO - Processing file: C:\AI_SecondBrain\personal_vault\test_note.md
+2025-07-06 00:35:34,961 - INFO - HTTP Request: POST https://zfzvxfjhoceomhjkuusm.supabase.co/rest/v1/crawled_pages "HTTP/2 201 Created"
+2025-07-06 00:35:34,962 - INFO - Successfully processed: C:\AI_SecondBrain\personal_vault\test_note.md
+2025-07-06 00:35:49,374 - INFO - Starting daemon mode...
+2025-07-06 00:35:50,318 - INFO - Use pytorch device_name: cpu
+2025-07-06 00:35:50,318 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-06 00:35:52,496 - INFO - Started watching: C:\AI_SecondBrain\personal_vault

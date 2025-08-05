@@ -1,0 +1,140 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+print("→ Loaded OPENROUTER_API_KEY:", os.getenv("OPENROUTER_API_KEY"))
+print("→ Loaded SUPABASE_URL       :", os.getenv("SUPABASE_URL"))
+print("→ Loaded SUPABASE_SERVICE_KEY:", os.getenv("SUPABASE_SERVICE_KEY"))
+
+import glob
+import asyncio
+import json
+from pathlib import Path
+from typing import List, Dict, Any
+
+from dotenv import load_dotenv
+import tiktoken
+import httpx
+from supabase import create_client, Client
+
+# Load .env variables
+load_dotenv()
+
+# Constants
+DATA_DIR = r"C:\AI_SecondBrain\local-ai-packaged\data\personal_vault"
+CHUNK_TOKEN_SIZE = 500
+BATCH_SIZE = 50
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+OPENROUTER_API_URL = "https://openrouter.ai/v1/chat/completions"  # TEMP — likely unsupported for embeddings
+OPENROUTER_MODEL = "claude-3"
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
+
+# Initialize Supabase client
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+# Initialize tokenizer
+tokenizer = tiktoken.get_encoding("cl100k_base")
+
+def chunk_text(text: str, max_tokens: int = CHUNK_TOKEN_SIZE) -> List[str]:
+    words = text.split()
+    chunks = []
+    current_chunk = []
+    current_tokens = 0
+
+    for word in words:
+        word_tokens = len(tokenizer.encode(word))
+        if current_tokens + word_tokens > max_tokens:
+            chunks.append(" ".join(current_chunk))
+            current_chunk = [word]
+            current_tokens = word_tokens
+        else:
+            current_chunk.append(word)
+            current_tokens += word_tokens
+
+    if current_chunk:
+        chunks.append(" ".join(current_chunk))
+
+    return chunks
+
+async def embed_texts(texts: List[str]) -> List[List[float]]:
+    """
+    TEMPORARY: this uses OpenRouter's chat completion endpoint as a hack for embeddings.
+    WARNING: Claude likely doesn't support this for embeddings. Will fallback to dummy zeros.
+    """
+    headers = {
+        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    embeddings = []
+    async with httpx.AsyncClient(timeout=60) as client:
+        for text in texts:
+            prompt = f"Generate a 1536-dimensional embedding vector for the following text:\n{text}"
+            payload = {
+                "model": OPENROUTER_MODEL,
+                "messages": [
+                    {"role": "system", "content": "You are an embedding generator."},
+                    {"role": "user", "content": prompt}
+                ],
+                "temperature": 0,
+                "max_tokens": 1536
+            }
+            try:
+                response = await client.post(OPENROUTER_API_URL, headers=headers, json=payload)
+                response.raise_for_status()
+                data = response.json()
+                content = data["choices"][0]["message"]["content"]
+                vector = json.loads(content)
+                embeddings.append(vector)
+            except Exception as e:
+                print(f"❌ Error generating embedding for text: {e}")
+                embeddings.append([0.0] * 1536)
+    return embeddings
+
+async def process_file(file_path: Path) -> List[Dict[str, Any]]:
+    text = file_path.read_text(encoding="utf-8")
+    chunks = chunk_text(text, max_tokens=CHUNK_TOKEN_SIZE)
+    embeddings = await embed_texts(chunks)
+
+    records = []
+    for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
+        records.append({
+            "url": str(file_path),
+            "chunk_number": i,
+            "content": chunk,
+            "embedding": embedding,
+            "metadata": {
+                "source": "personal_vault",
+                "file_name": file_path.name
+            }
+        })
+    return records
+
+async def upsert_records(records: List[Dict[str, Any]]):
+    for i in range(0, len(records), BATCH_SIZE):
+        batch = records[i:i+BATCH_SIZE]
+        response = supabase.table("crawled_pages").upsert(batch).execute()
+        if not (200 <= response.status_code < 300):
+            print(f"❌ Failed to upsert batch starting at {i}: {response.data}")
+
+async def main():
+    print("🚀 Starting ingestion...")
+    md_files = list(Path(DATA_DIR).rglob("*.md"))
+    md_files = md_files[:1]  # TEST MODE: limit to 1 file
+    print(f"📂 Found {len(md_files)} markdown file(s) to process.")
+
+    all_records = []
+    for file_path in md_files:
+        try:
+            records = await process_file(file_path)
+            all_records.extend(records)
+        except Exception as e:
+            print(f"⚠️ Error processing {file_path}: {e}")
+
+    print(f"📦 Total chunks to upsert: {len(all_records)}")
+    await upsert_records(all_records)
+    print("✅ Upsert completed.")
+
+if __name__ == "__main__":
+    asyncio.run(main())
